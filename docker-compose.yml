@@ -14,7 +14,7 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 800m
+          memory: 800M
     volumes:
     - ./cloud/ app:/app
     ports:
