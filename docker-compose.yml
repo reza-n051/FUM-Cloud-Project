@@ -3,3 +3,19 @@ services:
   cloud:
   mongo:
   rproxy:
+    build: ./cloud/nginx/
+    restart : always
+    environment :
+    - NGINX_IP=127.0.0.1
+    - NGINX_PORT=4000
+    - APP_IP=cloud
+    - APP_PORT=3000
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 450M
+    volumes :
+      - ./cloud/dowonload:/etc/app/shared/
+    ports:
+    - 8082:4000
