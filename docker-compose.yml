@@ -1,7 +1,7 @@
 version: "3"
 services:
   cloud:
-    build: ./cloud/app/
+    build: ./app/
     restart: always
     environment: 
     - APP_IP=127.0.0.1
@@ -10,33 +10,33 @@ services:
     depends_on:
       - mongo
       # - rproxy
-      deploy:
-        resources:
-          limits:
-            cpus: '0.5'
-            memory: 800m
-      voloumes:
-      - ./cloud/ app:/app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 800m
+    volumes:
+    - ./cloud/ app:/app
     ports:
     - 8080:3000
   mongo:
-  image: mongo
-  restart: always
-  environment:
-  - MONGO_INITDB_ROOT_USERNAME=cloud
-  - MONGO_INITDB_ROOT_PASSWORD=12345
-  deploy:
-    resources:
-      limits:
-        cpus: '0.5'
-        memory: 550M
-   ports:
-   - 8081:27017
-   volumes:
-    - ./cloud/data/db:/data/db
-    - ./cloud/data/configdb:/data/configdb
+    image: mongo
+    restart: always
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME=cloud
+    - MONGO_INITDB_ROOT_PASSWORD=12345
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 550M
+    ports:
+    - 8081:27017
+    volumes:
+     - ./data/db:/data/db
+     - ./data/configdb:/data/configdb
   rproxy:
-    build: ./cloud/nginx/
+    build: ./nginx/
     restart : always
     environment :
     - NGINX_IP=127.0.0.1
@@ -49,7 +49,7 @@ services:
           cpus: '0.5'
           memory: 450M
     volumes :
-      - ./cloud/dowonload:/etc/app/shared/
+      - ./dowonload:/etc/app/shared/
     ports:
     - 8082:4000
 
