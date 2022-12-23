@@ -6,19 +6,34 @@ services:
     APP_IP=127.0.0.1
     APP_PORT=3000
     - MONGO_STRING=mongodb://cloud:12345@mongo:27017/
-    
-    
-    
-    
-    
-    
-    
+    depends_on:
+      - mongo
+      # - rproxy
+      deploy:
+        resources:
+          limits:
+          cpus: '0.5'
+          memory: 800m
+      voloumes:
+      - ./cloud/ app:/app
+    ports:
+    - 8080:3000
   mongo:
-  
-  
-  
-  
-  
+  image: mongo
+  restart: always
+  environment:
+  - MONGO_INITDB_ROOT_USERNAME=cloud
+  - MONGO_INITDB_ROOT_PASSWORD=12345
+  deploy:
+    resources:
+      limits:
+        cpus: '0.5'
+        memory: 550M
+   ports:
+   - 8081:27017
+   volumes:
+    - ./cloud/data/db:/data/db
+    - ./cloud/data/configdb:/data/configdb
   rproxy:
     build: ./cloud/nginx/
     restart : always
