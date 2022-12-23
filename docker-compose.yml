@@ -1,7 +1,24 @@
 version: "3"
 services:
   cloud:
+    build: ./cloud/app/
+    restart: always
+    APP_IP=127.0.0.1
+    APP_PORT=3000
+    - MONGO_STRING=mongodb://cloud:12345@mongo:27017/
+    
+    
+    
+    
+    
+    
+    
   mongo:
+  
+  
+  
+  
+  
   rproxy:
     build: ./cloud/nginx/
     restart : always
